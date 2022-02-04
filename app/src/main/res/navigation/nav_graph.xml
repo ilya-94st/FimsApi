@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFilmsFragment">
+    <fragment
+        android:id="@+id/searchFilmsFragment"
+        android:name="com.example.fims.presentation.fragments.SearchFilmsFragment"
+        android:label="fragment_search_films"
+        tools:layout="@layout/fragment_search_films" >
+        <action
+            android:id="@+id/action_searchFilmsFragment_to_ditailsFragment"
+            app:destination="@id/ditailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ditailsFragment"
+        android:name="com.example.fims.presentation.fragments.DetailsFragment"
+        android:label="fragment_ditails"
+        tools:layout="@layout/fragment_ditails" >
+        <action
+            android:id="@+id/action_ditailsFragment_to_searchFilmsFragment"
+            app:destination="@id/searchFilmsFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+
+    </fragment>
+</navigation>
