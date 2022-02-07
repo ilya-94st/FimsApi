@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 class GetFilms @Inject constructor(private val filmsRepository: FilmsRepositoryImp) {
 
+
     @ExperimentalPagingApi
     operator fun invoke(query: String): Flow<PagingData<FilmEntities>> {
         return filmsRepository.getFilms(query)

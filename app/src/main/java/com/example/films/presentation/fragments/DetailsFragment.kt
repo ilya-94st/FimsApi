@@ -42,7 +42,7 @@ class DetailsFragment : BaseFragment<FragmentDitailsBinding>() {
 
        viewModel.getDetailsFilm(args.id)
 
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.details().collectLatest { result->
                 when(result) {
                     is Resources.Loading -> {

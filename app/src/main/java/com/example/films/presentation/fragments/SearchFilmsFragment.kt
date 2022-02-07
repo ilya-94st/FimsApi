@@ -26,18 +26,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@ExperimentalPagingApi
+
 @AndroidEntryPoint
+@ExperimentalPagingApi
 class SearchFilmsFragment : BaseFragment<FragmentSearchFilmsBinding>() {
     private val viewModel: FilmsViewModel by viewModels()
     private lateinit var filmAdapter: FilmsAdapter
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         swipeRefresh()
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.getFilms("titanic").collectLatest {
               filmAdapter.submitData(it)
             }

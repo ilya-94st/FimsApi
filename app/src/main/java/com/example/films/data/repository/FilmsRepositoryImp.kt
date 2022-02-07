@@ -19,7 +19,8 @@ import javax.inject.Inject
 class FilmsRepositoryImp @Inject constructor(
     private var db: DataBaseFilms,
     private val api: ApiFilms,
-    private val app: Context): FilmsRepository {
+    private val app: Context
+): FilmsRepository {
     private val pagingSourceFactoryForFilms =  { db.getDaoFilms().readFilms()}
 
     @ExperimentalPagingApi
@@ -32,8 +33,7 @@ class FilmsRepositoryImp @Inject constructor(
             remoteMediator = FilmsRemoteMediator(
                 api,
                 query,
-                db,
-                app
+                db
             ),
             pagingSourceFactory = pagingSourceFactoryForFilms
         ).flow

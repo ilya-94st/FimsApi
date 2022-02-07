@@ -53,7 +53,7 @@ class FilmsAdapter: PagingDataAdapter<FilmEntities, FilmsAdapter.FilmViewHolder>
 
         if (movie != "movie") {
             holder.binding.tvMuv.visibility = View.VISIBLE
-            holder.binding.tvMuv.text = films?.Type
+            holder.binding.tvMuv.text = "series"
         }
 
         holder.binding.constraintItems.setOnClickListener {

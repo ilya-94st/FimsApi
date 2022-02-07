@@ -9,6 +9,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FilmsViewModel @Inject constructor(private val getFilms: GetFilms): ViewModel() {
 
+
     @ExperimentalPagingApi
     fun getFilms(query: String) = getFilms.invoke(query)
 }
