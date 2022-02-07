@@ -6,7 +6,7 @@
     app:startDestination="@id/searchFilmsFragment">
     <fragment
         android:id="@+id/searchFilmsFragment"
-        android:name="com.example.fims.presentation.fragments.SearchFilmsFragment"
+        android:name="com.example.films.presentation.fragments.SearchFilmsFragment"
         android:label="fragment_search_films"
         tools:layout="@layout/fragment_search_films" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/ditailsFragment"
-        android:name="com.example.fims.presentation.fragments.DetailsFragment"
+        android:name="com.example.films.presentation.fragments.DetailsFragment"
         android:label="fragment_ditails"
         tools:layout="@layout/fragment_ditails" >
         <action
