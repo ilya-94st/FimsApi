@@ -17,8 +17,6 @@ interface ApiFilms {
     suspend fun getFilms(
         @Query("s")
         query: String,
-        @Query("pageSize")
-        pageSize: Int,
         @Query("page")
         page: Int,
         @Query("apiKey")

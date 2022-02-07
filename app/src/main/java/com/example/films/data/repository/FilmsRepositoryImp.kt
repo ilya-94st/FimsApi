@@ -9,7 +9,7 @@ import com.example.films.common.Constants
 import com.example.films.data.api.ApiFilms
 import com.example.films.data.db.DataBaseFilms
 import com.example.films.data.remotemediator.FilmsRemoteMediator
-import com.example.films.domain.model.entities.FilmEntities
+import com.example.films.domain.model.entinity.EntityFilms
 import com.example.films.domain.model.response.FilmsDitails
 import com.example.films.domain.repository.FilmsRepository
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +24,7 @@ class FilmsRepositoryImp @Inject constructor(
     private val pagingSourceFactoryForFilms =  { db.getDaoFilms().readFilms()}
 
     @ExperimentalPagingApi
-    override fun getFilms(query: String): Flow<PagingData<FilmEntities>> {
+    override fun getFilms(query: String): Flow<PagingData<EntityFilms>> {
         return Pager(
             config = PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
@@ -33,7 +33,8 @@ class FilmsRepositoryImp @Inject constructor(
             remoteMediator = FilmsRemoteMediator(
                 api,
                 query,
-                db
+                db,
+                app
             ),
             pagingSourceFactory = pagingSourceFactoryForFilms
         ).flow

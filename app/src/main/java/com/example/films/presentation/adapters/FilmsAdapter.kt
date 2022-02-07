@@ -8,21 +8,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.films.databinding.ItemsFilmsBinding
-import com.example.films.domain.model.entities.FilmEntities
+import com.example.films.domain.model.entinity.EntityFilms
 
-class FilmsAdapter: PagingDataAdapter<FilmEntities, FilmsAdapter.FilmViewHolder>(
+
+class FilmsAdapter: PagingDataAdapter<EntityFilms, FilmsAdapter.FilmViewHolder>(
     FILMS_COMPARATOR) {
 
     inner class FilmViewHolder(var binding: ItemsFilmsBinding) : RecyclerView.ViewHolder(binding.root)
 
     companion object{
-        private val FILMS_COMPARATOR = object : DiffUtil.ItemCallback<FilmEntities>(){
-            override fun areItemsTheSame(oldItem: FilmEntities, newItem: FilmEntities) =
-                oldItem.imdbID == newItem.imdbID
+        private val FILMS_COMPARATOR = object : DiffUtil.ItemCallback<EntityFilms>(){
+            override fun areItemsTheSame(oldItem: EntityFilms, newItem: EntityFilms) =
+                oldItem.id == newItem.id
             override fun areContentsTheSame(
-                oldItem: FilmEntities,
-                newItem: FilmEntities
-            ) = oldItem.imdbID == newItem.imdbID
+                oldItem: EntityFilms,
+                newItem: EntityFilms
+            ) = oldItem.id == newItem.id
 
         }
     }
@@ -66,9 +67,9 @@ class FilmsAdapter: PagingDataAdapter<FilmEntities, FilmsAdapter.FilmViewHolder>
 
     }
 
-    private var onItemClickListner: (FilmEntities)->Unit = { films: FilmEntities -> Unit }
+    private var onItemClickListner: (EntityFilms)->Unit = { films: EntityFilms -> Unit }
 
-    fun setOnItemClickListner(listner: (FilmEntities) ->Unit) {
+    fun setOnItemClickListner(listner: (EntityFilms) ->Unit) {
         onItemClickListner = listner
     }
 }

@@ -39,7 +39,4 @@ object AppModule {
         @ApplicationContext app: Context
     ) = Room.databaseBuilder(app, DataBaseFilms::class.java, DB_NAME).build()
 
-    @Provides
-    @Singleton
-    fun getFilmsDao(db: DataBaseFilms) = db.getDaoFilms()
 }
