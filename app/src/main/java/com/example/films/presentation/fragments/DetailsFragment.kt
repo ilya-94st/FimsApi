@@ -13,18 +13,17 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.films.R
-import com.example.films.common.Resources
+import com.example.films.common.Resource
 import com.example.films.databinding.FragmentDitailsBinding
 import com.example.films.presentation.base.BaseFragment
 import com.example.films.presentation.viewmodels.DetailsFilmViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class DetailsFragment : BaseFragment<FragmentDitailsBinding>() {
@@ -40,49 +39,23 @@ class DetailsFragment : BaseFragment<FragmentDitailsBinding>() {
             findNavController().popBackStack()
         }
 
-       viewModel.getDetailsFilm(args.id)
+       viewModel.getFilmsDetails(args.id).observe(viewLifecycleOwner, { response->
+           binding.title.text = response.data?.Title
+           binding.tvActors.text = response.data?.Actors
+           binding.tvImdbRating.text = response.data?.imdbRating
+           binding.tvImdbVotes.text = response.data?.imdbVotes
+           binding.tvTitleAppBar.text = response.data?.Title
+           binding.tvReleased.text = response.data?.Released
+           binding.tvWriter.text = response.data?.Writer
+           Glide.with(requireContext()).load(response.data?.Poster).into(binding.ivPoster)
+           binding.progressBar.isVisible = response is Resource.Loading
+       })
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.details().collectLatest { result->
-                when(result) {
-                    is Resources.Loading -> {
-                       showProgressBar()
-                    }
-                    is Resources.Success -> {
-                        result.data?.let {
-                                response->
-                            hideProgressbar()
-                            binding.title.text = response.Title
-                            binding.tvActors.text = response.Actors
-                            binding.tvImdbRating.text = response.imdbRating
-                            binding.tvImdbVotes.text = response.imdbVotes
-                            binding.tvTitleAppBar.text = response.Title
-                            binding.tvReleased.text = response.Released
-                            binding.tvWriter.text = response.Writer
-                            Glide.with(requireContext()).load(response.Poster).into(binding.ivPoster)
-                        }
-                    }
-                    is Resources.Error -> {
-                        hideProgressbar()
-                        result.message?.let {
-                            snackBar(it)
-                        }
-                    }
-                }
-            }
-        }
+
 
         binding.ivYouTube.setOnClickListener {
            getChromeCustomTabs("https://www.youtube.com/results?search_query=${args.title}")
         }
-    }
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressbar() {
-        binding.progressBar.visibility = View.INVISIBLE
     }
 
     private fun getChromeCustomTabs(url: String) {

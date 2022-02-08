@@ -23,7 +23,7 @@ data class FilmsDitails(
     val Website: String,
     val Writer: String,
     val Year: String,
-    val imdbID: String,
+    var imdbID: String,
     val imdbRating: String,
     val imdbVotes: String
 )

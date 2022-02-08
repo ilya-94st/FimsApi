@@ -15,6 +15,7 @@ import androidx.paging.LoadState
 import com.example.films.R
 import com.example.films.common.Constants
 import com.example.films.databinding.FragmentSearchFilmsBinding
+import com.example.films.presentation.BaseApplication.Companion.prefs
 import com.example.films.presentation.adapters.FilmsAdapter
 import com.example.films.presentation.adapters.LoadFilmAdapter
 import com.example.films.presentation.base.BaseFragment
@@ -40,8 +41,11 @@ class SearchFilmsFragment : BaseFragment<FragmentSearchFilmsBinding>() {
         initAdapter()
         swipeRefresh()
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.getFilms("titanic").collectLatest {
-              filmAdapter.submitData(it)
+            val query = prefs?.saveQuery
+            if (query != null) {
+                viewModel.getFilms(query).collectLatest {
+                    filmAdapter.submitData(it)
+                }
             }
         }
 
@@ -66,6 +70,7 @@ class SearchFilmsFragment : BaseFragment<FragmentSearchFilmsBinding>() {
                    if (editable.toString().isNotEmpty()){
                        val search = editable.toString()
                        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                           prefs?.saveQuery  = search
                            viewModel.getFilms(search).collectLatest {
                                filmAdapter.submitData(it)
                            }
