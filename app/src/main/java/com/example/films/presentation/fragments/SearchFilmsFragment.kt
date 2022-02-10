@@ -14,6 +14,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import com.example.films.R
 import com.example.films.common.Constants
+import com.example.films.common.SharedPref
 import com.example.films.databinding.FragmentSearchFilmsBinding
 import com.example.films.presentation.BaseApplication.Companion.prefs
 import com.example.films.presentation.adapters.FilmsAdapter
@@ -33,11 +34,13 @@ import kotlinx.coroutines.launch
 class SearchFilmsFragment : BaseFragment<FragmentSearchFilmsBinding>() {
     private val viewModel: FilmsViewModel by viewModels()
     private lateinit var filmAdapter: FilmsAdapter
+    private lateinit var sharedPref: SharedPref
 
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPref = SharedPref(requireContext())
         initAdapter()
         swipeRefresh()
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
@@ -57,6 +60,9 @@ class SearchFilmsFragment : BaseFragment<FragmentSearchFilmsBinding>() {
             findNavController().navigate(R.id.action_searchFilmsFragment_to_ditailsFragment, bundle)
         }
         searchFilms()
+        binding.logout.setOnClickListener {
+             exit()
+        }
     }
 
 
@@ -102,6 +108,13 @@ private fun initAdapter() {
             filmAdapter.refresh()
             binding.swipe.isRefreshing = false
         }
+    }
+
+    private fun exit() {
+        val editor = sharedPref.preferences.edit()
+        editor.clear()
+        editor.apply()
+        findNavController().navigate(R.id.action_searchFilmsFragment_to_registrationFragment)
     }
 
     override fun getFragmentBinding(

@@ -16,6 +16,7 @@ import com.example.films.data.toEntityDetails
 import com.example.films.domain.model.entinity.EntityDetails
 import com.example.films.domain.model.entinity.EntityFilms
 import com.example.films.domain.repository.FilmsRepository
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -73,6 +74,4 @@ class FilmsRepositoryImp @Inject constructor(
             }
         )
     }
-
-
 }
